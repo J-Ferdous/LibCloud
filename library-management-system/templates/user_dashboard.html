@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard - Library Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">User Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-bookmark-check"></i> My Active Issues</h5>
+            </div>
+            <div class="card-body">
+                {% if active_issues %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Book/Movie</th>
+                                <th>Issue Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for issue in active_issues %}
+                            <tr>
+                                <td>{{ issue.item.name }}</td>
+                                <td>{{ issue.issue_date.strftime('%Y-%m-%d') }}</td>
+                                <td>{{ issue.due_date.strftime('%Y-%m-%d') }}</td>
+                                <td>
+                                    {% if issue.status == 'active' %}
+                                    <span class="badge bg-success">Active</span>
+                                    {% elif issue.status == 'overdue' %}
+                                    <span class="badge bg-danger">Overdue</span>
+                                    {% else %}
+                                    <span class="badge bg-warning">{{ issue.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">No active issues</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-lightning-charge"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/transactions" class="btn btn-outline-primary mb-2">
+                        <i class="bi bi-arrow-left-right"></i> Transactions
+                    </a>
+                    <a href="/reports" class="btn btn-outline-success mb-2">
+                        <i class="bi bi-file-text"></i> View Reports
+                    </a>
+                    <a href="#" class="btn btn-outline-info mb-2" data-bs-toggle="modal" data-bs-target="#requestBookModal">
+                        <i class="bi bi-journal-plus"></i> Request Book
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle"></i> System Info</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Library Hours:</strong><br>
+                Monday - Friday: 9:00 AM - 8:00 PM<br>
+                Saturday: 10:00 AM - 6:00 PM<br>
+                Sunday: Closed</p>
+                <p><strong>Contact:</strong><br>
+                Email: library@example.com<br>
+                Phone: (123) 456-7890</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Request Book Modal -->
+<div class="modal fade" id="requestBookModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Request a Book/Movie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="requestBookForm">
+                    <div class="mb-3">
+                        <label class="form-label">Book/Movie Name *</label>
+                        <input type="text" class="form-control" name="item_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Author/Director</label>
+                        <input type="text" class="form-control" name="author">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea class="form-control" name="notes" rows="3"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Request Book Form
+    document.getElementById('requestBookForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+            // This would call your API endpoint
+            // const response = await fetch('/api/request-book', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(data)
+            // });
+            
+            // Simulate success for now
+            alert('Request submitted successfully! We will notify you when the item is available.');
+            $('#requestBookModal').modal('hide');
+            this.reset();
+        } catch (error) {
+            alert('Error submitting request: ' + error.message);
+        }
+    });
+});
+</script>
+{% endblock %}

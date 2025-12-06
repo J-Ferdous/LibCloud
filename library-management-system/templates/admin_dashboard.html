@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Library Management System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Admin Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total Books</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ total_books }}</h5>
+                <p class="card-text">Books in library</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Total Movies</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ total_movies }}</h5>
+                <p class="card-text">Movies in library</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-header">Total Members</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ total_members }}</h5>
+                <p class="card-text">Active members</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-header">Active Issues</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ active_issues }}</h5>
+                <p class="card-text">Books/Movies issued</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/maintenance" class="btn btn-outline-primary">
+                        <i class="bi bi-tools"></i> Maintenance
+                    </a>
+                    <a href="/transactions" class="btn btn-outline-success">
+                        <i class="bi bi-arrow-left-right"></i> Transactions
+                    </a>
+                    <a href="/reports" class="btn btn-outline-info">
+                        <i class="bi bi-file-text"></i> Reports
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Activities</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>System Started</td>
+                            <td>{{ now.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                        </tr>
+                        <!-- Add more activities here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
